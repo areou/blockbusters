@@ -1,0 +1,1736 @@
+<html>
+	
+	<head>
+
+		
+    <meta charset="utf-8">
+    <title>(MATH) BlockBusters</title>
+		
+		<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script>
+
+		
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async>
+</script>
+		
+		
+<style>
+  body {
+    margin: 0;
+
+  }
+	
+			.column {
+  float: left;
+  width: 50%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+</style>
+  </head>
+
+<body>
+	
+	
+	<div id='bruce banner' align='center'> <p></p><br/></div>
+
+
+
+	
+	
+	
+	<script>
+		// WINDOW SIZE DATA
+		var w=window.innerWidth;
+		var h=window.innerHeight;
+		
+		
+		//STUFF TO KEEP TRACK OF WHERE WE ARE
+		var inLogo=1;
+		var inGame=0;
+		var inSetUp=0;
+		var inQuestion=0;
+		var logoLoaded=0;
+		var bannerLoaded=0;
+		
+		
+		
+		var lettersConvert=[['A','B','C','D'],['E','F','G','H'],['I','J','K','L'],['M','N','O','P'],['Q','R','S','T']];
+		
+		
+		
+		// QUESTION BANK
+		var usedQuestions=[];
+		var Questions=[];
+		var oldQuestions;
+		oldQuestions=[['There are two Bacteria growing in a lab, Bacteria A and Bacteria B. Bacteria A grows at a rate of 70% every 5 hours and Bacteria B grows at a rate of 30% every 3 hours. Which bacteria is growing faster?','Bacteria A','Bacteria B','They grow at same speed','cannot tell from given information','a'],['Consider the line that goes through the points (1,4) and (5,7). Find the formula for this line.','$2x-7$','$\\frac{4}{3}x+\\frac{7}{3}$','$\\frac{3}{4}x+\\frac{13}{4}$','none of the above','c'],['How many points in the plane satisfy both $x^2+y^2=64$ and $x^2-16x+y^2-30y=-225?$', '0','1','2','3','a'],['Consider the exponential function $y=Pe^{kx}$ that goes through the points (4,60) and (25,3). Find a value of $k$ which works.', '0.25','-0.143','0.0143','-0.25','b'],['Which of the following is the formula for the parabola that has a maximum value of 50 at the $x$ value 12 and crosses the $x$-axis at $x=0$?','$-3x^2-1$','$-\\frac{1}{3}x^2$','$-0.347x^2+8.33x$','$-0.347x^2+6x$','c'],['How many times does the functions $f(x)=3x^2-5x-12$ and $g(x)=10x-11x^2+7$ intersect?','0','1','2','3','c'],['Suppose on day one, there is one zombie in Columbia. Each day, every zombie will bite one person and turn them into a zombie. How many zombies are there on day 7?','0','54','60','64','d'],["At 5 o'clock, you put a $50^{\\circ}$F turkey in the oven that is $375^{\\circ}$F. 75 minutes later it is $125^{\\circ}$F. At what time will the turkey be $150^{\\circ}$F, given that the turkey satisfies the formula: $$ T(t)=425-ce^{-kt}?$$",'1:20','2:20','3:20','3:40','d'],["Solve the following system of equations:$$x+y+z=1$$ $$x-y=2$$  $$x+z=0$$",'$x=3$, $y=1$, $z=2$','$x=3$, $y=1$, $z=-3$','$x=4$, $y=3$, $z=2$','$x=\\frac{3}{2}$, $y=\\frac{1}{2}$, $z=2$','b'],['Solve the follwoing system of linear equations: $$x+y+z=1$$ $$x-y+3z=2$$ $$x+z=0$$','$x=\\frac{-3}{2}$, $y=1$, $z=\\frac{3}{2}$','$x=\\frac{3}{2}$, $y=1$, $z=\\frac{-3}{2}$','$x=\\frac{3}{2}$, $y=3$, $z=\\frac{1}{2}$','$x=\\frac{-3}{2}$, $y=\\frac{1}{2}$, $z=\\frac{2}{3}$','a'],['Find $\\sin(3\\theta)$ if $\\sin(\\theta)=0.8$.','0.352','-0.352','0.243','none of the above','a'],['If you have 5 lines no two which are parallel. What is the maximum number of intersections that can occur?','0','5','10','none of the above','c'],['You have 5 lines no two which are parallel. What is the maximum number of triangles that can occur?','0','5','10','none of the above','b'],['There is a tower that is 50 meters high that casts a shadow 100 meters long. If you are standing at the tip of the shadow, how far away are you from the top of the tower?','111.8 meters','110.8 meters', '100 meters', 'none of the above','a'],['There is a tower that is 50 meters high that casts a shadow 100 meters long. If you are standing at the tip of the shadow what is the measure of the angle of elevation?','$24.4^{\\circ}$','$26.6^{\\circ}$','$28.8^{\\circ}$','none of the above','b'],['What is the largest volume of a dome (half sphere) inscribed in a square box with sides of length 6 meters?','33$\\pi m^3$','32$\\pi^3 m^3$','$36\\pi m^3$','none of the above','c'],['Given a piece of paper with coners cut out (as shown below) if you then fold it into a box with an open top, what formula represents the volume of the box in terms of $x$?<div align="center"> <img src="boxnew.png" ></div>','$V=x(7-2x)^2$in','$V=x(7-2x)^3$in','$V=x(5-x)^2$in','$V=x(4-3x)^2$in','a'],['If you have a flower bed where the length is twice the width write a formula for the area using only one variable. (using $w$ for the width)','$A=4w^2$','$A=2w^2$','$A=3w^4$','none of the above','b'],['Find the measure of the angel $c$.<div align="center"> <img src="finder.png" style="width:25%"></div>','$60^{\\circ}$','$30^{\\circ}$','$65^{\\circ}$','$35^{\\circ}$','c'],['Find the area enclosed by the line $y=x+2$, the $x$-axis, the line $x=0$, and the line $x=4$','12','14','16','none of the above','c'],['Find all the integers $b$ such that $x^2+bx+2019=(x+c)(x+d)$ for some integers $c$ and $d$','$b=\\pm 2020,\\pm 676$','$b=\\pm 2020$','$\\pm 676$','none of the above','a'],['Find all solutions: $$ 6x^{\\frac{5}{2}}-12x^{\\frac{3}{2}}+2x^{\\frac{7}{2}}=0.$$','$x=0,\\frac{-3\\pm\\sqrt{33}}{2}$','$x=1,\\frac{-3\\pm\\sqrt{33}}{2}$','$x=0,\\frac{-1\\pm\\sqrt{13}}{2}$','none of the above','a'],['Complete the following polynomial division $$ (x^5+4x^4+x^3+36x^2+32)\\div(x^3+4x^2+32)$$','$x^2-1$','$2x+1$','$x^2+1$','none of the above','c'],['Factor the polynomial $x^5+4x^4+x^3+36x^2+32$.','$(x^3+2x^2+32)(x^2+1)$','$(\\frac{1}{2}x^3+4x^2+32)(2x+1)$','$(x^3+4x^2+32)(x^2-1)$','none of the above','a'],['Factor the following polynomial $y^3+xy^2-2y^2+x^2y-2xy-2x^2$.','$(y-2)(x^2+xy+y^2)$','$(y-1)(x^2+xy-y^2)$','$(y-1)(x^2-xy+y^2)$','none of the above','a'],['What is the units digit of $3^{2019}$','4','5','6','7','d'],['2019 is a year with the property that it factors as the product of two distinct primes $p$ and $q$ whose sum $p+q$ is a square. Waht is the next year to have this property?','2020','2039','2049','2060','c'],['Find the sum of all the positive integers $x$ with the property: $x$ is 22 times the sum of the digits of $x$.','182','780','792','none of the above','c' ],['How many six-digit positive integers exist satisfying the following:<p></p><strong>(i)</strong>The first, third and fifth digits are odd<p></p><strong>(ii)</strong> the second, fourth and sixth digits are even<p></p><strong>(iii)</strong> all six digits are distinct','3600','2600','1600','none of the above','a'],['How many four-digit integers exists satisyfing the following:<p></p><strong>(i)</strong>The first digit is even<p></p><strong>(ii)</strong> the second digit is odd<p></p><strong>(iii)</strong> all four digits are distinct','3120','2120','1120','none of the above','c'],['Jack and his brother John are very competitive. Each day Jack eats one more cookie than John eats. John not wanting to be shown up eats one more cookie than Jack did the previous day. If John eats one cookie the first day how many total cookies has Jack and John ate combined for ten days?','110','210','310','none of the above','b'],['Every integer has a unique base 6 representation using only the digits $0, 1, . . . , 5$ . Let $f(x) = (x^2-4x-5)^2x^6$. What is the sum of the digits of the base 6 representation of $f(6)$?','2','3','4','none of the above','c'],['Jeremiah writes down the integers from 1 to 100. He then puts a circle around 1, and triangle around 2 and every multiple of 2. He moves to the next number not enclosed by a shape and draws a square around it and every multiple of it. He continues this process, making each new shape have one more side then the last shape until every number is enclosed by at least one shape. How many sides did the last new shape have?','17','27','37','b'],['Joe writes down the integers from 1 to 100. He then puts a circle around 1, and triangle around 2 and every multiple of 2. He moves to the next number not enclosed by a shape and draws a square around it and every multiple of it. He continues this process, making each new shape have one more side then the last shape until every number is enclosed by at least one shape. What is the sum of the numbers enclosed by at least 3 shapes?','186','286','386','b'],[' How many four-digit positive integers exist satisfying the following:<p></p><strong>(i)</strong> The first digit is odd<p></p><strong>(ii)</strong> The second digit is even<p></p><strong>(iii)</strong> all four digits are distinct','100','200','300','400','d'],[' A man must vacate his apartment and would like to bring his two pets, a cat and a mouse, and his delicious block of cheese. Because he must go down many flights of stairs, he is only able to bring one thing at a time. If left unattended, the cat will eat the mouse, and the mouse will eat the cheese. How many times must he go up (or down) the stairs in order to safely transport all three?','7','8','9','10','a'],['A very special island is inhabited only by knights and knaves. Knights always tell the truth, and knaves always lie.<p></p>You meet two inhabitants: Homer and Bozo. <p></p>Homer tells you, "At least one of the following is true: that I am a knight or that Bozo is a knight."<p></p>Bozo claims, "Homer would say that I am a knave."<p></p>Can you determine who is a knight and who is a knave?','Homer is a knight and Bozo is a knave','Bozo is a knight and Homer is a knave','both are knights','both are knaves','c'],[' A very special island is inhabited only by knights and knaves. Knights always tell the truth, and knaves always lie.<p></p>You meet two inhabitants: Joe and Jacob. <p></p>Joe tells you that Jacob is a knave. <p></p>Jacob says, "Neither Joe nor I are knaves."<p></p>Can you determine who is a knight and who is a knave?','Joe is a knight and Jacob is a knave', 'Jacob is a knight and Joe is a knave','both are knights','both are knaves','a'],['A very special island is inhabited only by knights and knaves. Knights always tell the truth, and knaves always lie.<p></p>You meet two inhabitants: Jeremiah and Joe. <p></p>Jeremiah says that Joe is a knave. <p></p>Joe says, "I and Jeremiah are knights."<p></p>Can you determine who is a knight and who is a knave?','Jeremiah is a knight and Joe is knave','Joe is a knight and Jeremiah is a knave','both are knights','both are knaves','a'],[' A very special island is inhabited only by knights and knaves. Knights always tell the truth, and knaves always lie.<p></p>You meet two inhabitants: Rob and Duncan. <p></p>Rob tells you that  "of Duncan and I, exactly one is a knight". <p></p>Duncan tells you that only a knave would say that Rob is a knave.<p></p>Can you determine who is a knight and who is a knave?','Rob is a knight and Duncan is knave','Duncan is a knight and Rob is a knave','both are knights','both are knaves','d'],['A very special island is inhabited only by knights and knaves. Knights always tell the truth, and knaves always lie.<p></p>You meet three inhabitants: Marge, Lisa and Flanders. <p></p>Marge says, "Flanders would claim that I am a knight." <p></p>Lisa says, "Either Marge is a knave or I am a knight."<p></p>Flanders claims, "Marge and Lisa are both knights or both knaves."<p></p>Can you determine who is a knight and who is a knave?','all three are knights', 'all three are knaves','only one of them is a knight','only one of them is a knave','a'],['A very special island is inhabited only by knights and knaves. Knights always tell the truth, and knaves always lie.<p></p>You meet four inhabitants: Bart, Dave, Rex and Zoey. <p></P>Bart tells you that Rex and Dave are both knights or both knaves. <p></p>Dave tells you that Zoey is a knave. <p></p>Rex claims, "Bart is a knave."<p></p>Zoey claims, "Rex is a knight and Dave is a knave."<p></p>Can you determine who is a knight and who is a knave?','all four are knights', 'all four are knaves','Zoey and Rex are knights and the rest are knaves','Bart and Dave are knights the rest are knaves','c'],['A very special island is inhabited only by knights and knaves. Knights always tell the truth, and knaves always lie.<p></p>You meet four inhabitants: Dave, Rex, Bart and Zoey. <p></p>Dave tells you that Bart would say that Rex is a knave. <p></p>Rex tells you that Bart is a knave. <p></p>Bart claims, "Only a knave would say that Zoey is a knave."<p></p>Zoey claims, "I and Dave are different."<p></p>Can you determine who is a knight and who is a knave?','all four are knights', 'all four are knaves','only one of them is a knight','only one of them is a knave','c'],['A very special island is inhabited only by knights and knaves. Knights always tell the truth, and knaves always lie.<p></p>You meet three inhabitants: Alice, Eve and Bob. <p></p>Alice tells you that Eve is a knave.<p></p> Eve tells you that it is false that Bob is a knave.<p></p> Bob claims, "I am a knight or Alice is a knight."<p></p>Can you determine who is a knight and who is a knave?','all three are knights','all three are knaves','only one of them is a knight', 'only one of them is a knave','d'],['A book has 2019 pages. How many times does 2 appear in the page numbers?','622','722','822','none of the above','a'],['How many 5-digit numbers, $abcde$, have the property $abcde=edcba$?','800','900','1000','none of the above','b'],['Suppose you are placing 11 napkins on a table: 4 blue and 7 pink. How many ways are there to place these napkins in a row?','230','330','430','none of the above','b'],[' Suppose you are placing 11 napkins on a table: 4 blue and 7 pink. How many ways are there to place these napkins in a circle?','10','20','30','none of the above','c'],['Suppose you are placing 11 napkins on a table: 4 blue and 7 pink. How many ways are there to place these napkins in a row if the blue napkins must be place together?','7','8','9','none of the above','b'],[' Suppose you are placing 11 napkins on a table: 4 blue and 7 pink. How many ways are there to place these napkins in a row if no two blue napkins can be next to each other? ','15','25','35','none of the above','c'],['There are 2019 people running a marathon how many ways (ignoring skill) are there to choose three who don not finish.','$\\binom{2019}{3}$','$\\binom{3}{2019}$','$\\binom{2019}{2}$','$\\binom{2}{2019}$','a'],['In a standard playing cards how many ways are there to get a full house (3 of one kind 2 of a different kind).','2744','3744','4744','none of the above','b'],['How many ways can you roll a combined value of 7 if you roll two six sided dice?','6','7','8','none of the above','a'],['You are at a park where two families (family A and family B) are having picnics. Each family has 6 people in the family. Family A has 2 males and 4 females, Family B has 3 males and 3 females. If you choose a person at random what is the probability that the person is from Family B given they are male.','$\\frac{3}{5}$','$\\frac{3}{6}$','$\\frac{5}{3}$','$\\frac{6}{3}$','a']];
+		
+		
+		var poop;
+		var currentQuestion=0;
+		for (poop=0;poop<Questions.length;poop++){
+		usedQuestions[poop]=0;	
+		}
+		//document.write(usedQuestions);
+		
+		
+		
+		//document.write(w)
+		
+		
+		//SET UP SCREEN CONTROLS
+		var bannerDiv=document.getElementById('bruce banner');
+		var whichQuestions=0;
+		var questionsRawTxt='';
+		let customControl=document.createElement('div');
+		var userFile;
+		var userQuestions=[];
+		var tempQuestion=['','not a choice','not a choice','not a choice','not a choice',''];
+		
+		
+		//NAME LOGO (START LOADING THE LOGO)
+		var image=new Image();
+		image.src='croppedlogo.png';
+		
+		
+		// LOGO CONTROLS
+		var logo=document.createElement('div');
+		logo.innerHTML='<div align="center"> <p></p><br/>Welcome to a math themed game developed by Robert Vandermolen and Joe Foster. Use the buttons above to start playing or learn more about the game!</div><canvas Id="myCanvas"></canvas>';
+		let logobtnHolder=document.createElement('div');
+		var alBH=document.createAttribute('align');
+		alBH.value='center';
+		logobtnHolder.setAttributeNode(alBH);
+		var clBH=document.createAttribute('class');
+		clBH.value='row';
+		logobtnHolder.setAttributeNode(clBH);
+		var newGameBtn;
+		var moreInfoBtn;
+		var canvasL;
+		var widthL;
+		var heightL;
+		var ctxL;
+		
+		var newgameTheta='<input id="set up button" type="button" value="New Game">';
+		var moreinfoTheta='<input id="more info button" type="button" value="More Info">';
+		var newtheta="<div class='column'>"+newgameTheta+"</div><div class='column'>"+moreinfoTheta+"</div>";
+		logobtnHolder.innerHTML=newtheta;
+		
+		
+		
+		// GAME BOARD CONTROLS
+		let gb=document.createElement('div');
+		gb.innerHTML='<canvas Id="gbCanvas"></canvas>';
+		/*var alGB=document.createAttribute('align');
+		alGB.value='center';
+		gb.setAttributeNode(alGB);*/
+		var canvasGB;
+		var widthGB;
+		var heightGB;
+		var ctxGB;
+		var s=(w/6)/1.5;
+		var sieze;
+		var tops;
+		var sideskip;
+		var downskip;
+		var elemLeft;
+		var elemTop;
+		var phiphi;
+
+		
+		// NEXT ROUND AND REDO BUTTON HOLDER
+		let btnHolder=document.createElement('div');
+		var albtnHolder=document.createAttribute('align');
+		albtnHolder.value='center';
+		btnHolder.setAttributeNode(albtnHolder);
+		var clbtnHolder=document.createAttribute('class');
+		clbtnHolder.value='row';
+		btnHolder.setAttributeNode(clbtnHolder);
+	
+		var redoBtn;
+		var nextBtn;
+		var theta;
+		var redoTheta;
+		var nextTheta;
+		redoTheta='<input id="redobutton" type="button" value="<< Redo Round">';
+		nextTheta='<input id="nextbutton" type="button" value="Next Round >>">';
+		theta="<div class='column'>"+redoTheta+"</div><div class='column'>"+nextTheta+"</div>";
+		btnHolder.innerHTML=theta;
+		
+		
+		//QUESTION CONTROLS
+		let qs=document.createElement('div');
+		var alQS=document.createAttribute('align');
+		alQS.value='center';
+		qs.setAttributeNode(alQS);
+		
+		
+		
+		
+		
+		//ANSWER CONTROLS
+		let as=document.createElement('div');
+		var alAS=document.createAttribute('class');
+		alAS.value='row';
+		as.setAttributeNode(alAS);
+		var yx='na';
+		var yy='na';
+		var ba;
+		var bb;
+		var bc;
+		var bd;
+		var ra;
+		var rb;
+		var rc;
+		var rd;
+		var redAnswerBlock;
+		var blueAnswerBlock;
+		var blocksx=[[[],[],[],[]],[[],[],[],[]],[[],[],[],[]],[[],[],[],[]],[[],[],[],[]]];
+		var blocksy=[[[],[],[],[]],[[],[],[],[]],[[],[],[],[]],[[],[],[],[]],[[],[],[],[]]];
+		var redBlocks=[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
+		var blueBlocks=[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
+		var blackBlocks=[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
+		var correctRound=0;
+		var an;
+		var redRound=0;
+		var blueRound=0;
+		var previousX='na';
+		var previousY='na';
+		var PreviousCorrect='na';
+		//document.write(tops);
+		
+		
+		
+		
+		//TEAM NAME ENTRY:
+		let dummies=document.createElement('div');
+		var teamNamesInner='<div><p></p> <strong> Choose Team Names:</strong><p></p></div><div>Red Team name: <input type="text" id="redname" value="FIRST TEAM NAME"><p></p> Blue Team name: <input type="text" id="bluename" value="SECOND TEAM NAME"></div><div><p></p><br/><strong> Choose Question Bank:</strong><p></p> </div>';
+		
+		var questionBankInner='<div><select onchange="steez(event)" id="questionSelect"><option value="0">Default</option><option value="1">Load Custom</option></select></div>';
+		var dummiesInner=teamNamesInner+questionBankInner;
+		
+		let previewDiv=document.createElement('div');
+		var pal=document.createAttribute('align');
+		pal.value='center';
+		previewDiv.setAttributeNode(pal);
+		
+		var previewQuestionsInner='<div><p></p><br/><input type="button" value="preview questions" id="preview questions"></div>';
+		var actualPreviewInner='';
+		var prvBtn;
+		
+		let theBottom=document.createElement('div');
+		var bottomA=document.createAttribute('align');
+		bottomA.value='center';
+		theBottom.setAttributeNode(bottomA);
+		
+		var playbuttonInner='<div> <p></p><br/><input id="playbutton" type="button" value="Start Playing!"></div>';
+		
+		var chooseFileInner='<div><p></p><br/><input type="file" accept="text/plain" onchange="openFile(event)" id="user file"></div>';
+		
+		
+		theBottom.innerHTML=playbuttonInner;
+		
+		
+		dummies.innerHTML=dummiesInner;
+		var al=document.createAttribute('align');
+		al.value='center';
+		dummies.setAttributeNode(al);
+		var redna='';
+		var bluena='';
+		var btn;
+		
+		
+		
+		//BOARD FOR WHEN QUESTION IS DISPLAYED
+		let gbQhlder=document.createElement('div');
+		var clhlder=document.createAttribute('class');
+		clhlder.value='row';
+		gbQhlder.setAttributeNode(clhlder);
+		var theta;
+		var theta1="<div class='column' id='canvas col'><canvas Id='gb2Canvas'></canvas></div>";
+		var theta2="<div class='column' id='question col' align='center'></div>";
+		theta=theta1+theta2;
+		gbQhlder.innerHTML=theta;
+		
+		var questionCol;
+		
+		
+		var canvasGB2;
+		var widthGB2;
+		var heightGB2;
+		var ctxGB2;
+		var hh;
+		var tops2;
+		var sideskip2;
+		var downskip2;
+		
+		
+		
+		
+		
+		
+		
+		
+	
+		
+		
+	
+		makeLogo();
+		
+		
+		
+		
+		/*btn.addEventListener('click',function(e){
+			redna=document.getElementById('redname').value;
+			bluena=document.getElementById('bluename').value;
+			if (redna!='FIRST TEAM NAM' && bluena!='SECOND TEAM NAM'){
+				
+				// UNLOAD LOGO SCREEN
+				dummies.parentNode.removeChild(dummies);
+				logo.parentNode.removeChild(logo);
+				
+				inLogo=0;
+				inGame=1;
+				
+				// LOAD BOARD 
+				makeBoard();
+				
+				
+				
+				
+				//PLAY GAME
+				startRound();
+				
+				
+			}
+				
+			else{
+				alert('Please type in NEW team names!');	
+				}
+		});*/
+			
+		
+	
+		
+			
+		
+		
+		//EVENT LISTENER TO RESIZE
+		window.addEventListener("resize", function(){
+			
+			
+			
+			
+			w=window.innerWidth;
+			h=window.innerHeight;
+			
+		
+			
+			
+			if (inLogo==1){
+			logo.parentNode.removeChild(logo);
+			logobtnHolder.parentNode.removeChild(logobtnHolder);
+			makeLogo();
+			
+			}
+			
+			if (inGame==1){
+				//btnHolder.parentNode.removeChild(btnHolder);
+				//console.log(inQuestion);
+				if (inQuestion==1){
+					
+					as.parentNode.removeChild(as);
+					gbQhlder.parentNode.removeChild(gbQhlder);
+					
+					makeQuestions(Questions[phiphi][0],Questions[phiphi][1],Questions[phiphi][2],Questions[phiphi][3],Questions[phiphi][4]);
+					
+					//QuestionGame(phi);
+					
+					
+				}
+				
+				
+				
+				
+				
+				
+			
+			else{
+				
+				gb.parentNode.removeChild(gb);
+				qs.parentNode.removeChild(qs);
+				
+				
+				makeBoard();
+				var pee;
+				var peepee;
+				for (pee=0; pee<redBlocks.length;pee++){
+					for (peepee=0;peepee<4;peepee++){
+						if (redBlocks[pee][peepee]==1){
+						fillBlock(pee,peepee,'red');	
+						}
+						if (blueBlocks[pee][peepee]==1){
+						fillBlock(pee,peepee,'blue');	
+						}
+						if (blackBlocks[pee][peepee]==1){
+						fillBlock(pee,peepee,'black');	
+						}
+						if (yx!='na' && yy!='na'){
+						fillBlock(yx,yy,'yellow');	
+						}
+					}
+				}
+				document.body.appendChild(qs);
+				
+				
+			}
+			}
+			
+		
+	
+			
+  
+		});
+		
+	
+		
+		
+		
+		
+		
+		
+
+		// FUNCTIONS
+		
+		
+		function makeSetUp(){
+			bannerDiv.innerHTML='<img src="banner.png" style="width: 65%">';
+			document.body.appendChild(dummies);
+			document.body.appendChild(theBottom);
+			//userFile=document.getElementById('user file');
+			
+			btn=document.getElementById('playbutton');
+			btn.addEventListener('click',pressedPlay);
+		//dummies.parentNode.removeChild(dummies);	
+		}
+		
+		
+		
+		
+		function pressedPlay(e){
+			
+			var noGo=0;
+			if (userQuestions.length!=0){
+				previewDiv.parentNode.removeChild(previewDiv);
+			}
+			redna=document.getElementById('redname').value;
+			bluena=document.getElementById('bluename').value;
+			if (whichQuestions==0){
+				Questions=oldQuestions;	
+			}
+			if (whichQuestions==1 && userQuestions.length!=0){
+				Questions=userQuestions;
+			}
+			if (whichQuestions==1 && userQuestions==0){
+			alert('You have selected to use your own questions except you have failed to load valid questions try again or select default!');
+				noGo=1;
+			}
+			if (noGo==0){
+			if (redna!='FIRST TEAM NAM' && bluena!='SECOND TEAM NAM'){
+				
+				// UNLOAD LOGO SCREEN
+				dummies.parentNode.removeChild(dummies);
+				theBottom.parentNode.removeChild(theBottom);
+				
+				bannerDiv.innerHTML='<img src="banner.png" style="width: 35%">';
+				//logo.parentNode.removeChild(logo);
+				
+				inLogo=0;
+				inSetUp=0;
+				inGame=1;
+				
+				// LOAD BOARD 
+				makeBoard();
+				
+				
+				
+				
+				//PLAY GAME
+				startRound();
+				
+				
+			}
+				
+			else{
+				alert('Please type in NEW team names!');	
+				}
+			}
+			//console.log('worked');
+		};
+		
+		
+		//TAKES CARE OF DROP DOWN 
+		var steez=function(e){
+			var theseQuestions=e.target.value;
+			whichQuestions=theseQuestions;
+			if (theseQuestions==1){
+					theBottom.innerHTML=chooseFileInner+playbuttonInner;
+					btn=document.getElementById('playbutton');
+					userFile=document.getElementById('user file');
+					btn.addEventListener('click',pressedPlay);
+					actualPreviewInner='';
+				previewDiv.innerHTML=actualPreviewInner;
+				userQuestions=[];
+			}
+			else{
+				questionsRawTxt='';
+				theBottom.innerHTML=playbuttonInner;
+				btn=document.getElementById('playbutton');
+				btn.addEventListener('click',pressedPlay);
+				actualPreviewInner='';
+				previewDiv.innerHTML=actualPreviewInner;
+				
+			}
+		//console.log(theseQuestions);	
+		};
+		
+		function makePreviewButton(){
+			
+			previewDiv.innerHTML=previewQuestionsInner;
+			document.body.appendChild(previewDiv);
+			prvBtn=document.getElementById('preview questions');
+			prvBtn.addEventListener('click',previewClicked);
+			
+			//previewQuestionsInner='<div><p></p><br/><input type="button" value="preview questions" id="preview questions"></div>';
+			
+			
+		};
+		
+		function previewClicked(e){
+			
+			//actualPreviewInner=actualPreviewInner+'<p></p><br/>';
+			var pr;
+			for (pr=0;pr<userQuestions.length;pr++){
+				var reallyreally=pr+1;
+				var step1='<p></p></br><strong>Question #'+reallyreally+':</strong> ';
+				var st;
+				for (st=0;st<6;st++){
+					if (st==0){
+						actualPreviewInner=actualPreviewInner+step1+userQuestions[pr][0];	
+					}
+					
+						if (st==1){
+				actualPreviewInner=actualPreviewInner+'<p></p><strong>(a)</strong> '+userQuestions[pr][st];}
+					
+					if (st==2){
+				actualPreviewInner=actualPreviewInner+'<p></p><strong>(b)</strong> '+userQuestions[pr][st];}
+					
+				if (st==3){
+				actualPreviewInner=actualPreviewInner+'<p></p><strong>(c)</strong> '+userQuestions[pr][st];}
+				if (st==4){
+				actualPreviewInner=actualPreviewInner+'<p></p><strong>(d)</strong> '+userQuestions[pr][st];}
+						if (st==5){
+				actualPreviewInner=actualPreviewInner+'<p></p><strong>Actual Answer:</strong> '+userQuestions[pr][st];}
+					
+					}
+			}
+				previewDiv.innerHTML=actualPreviewInner;
+			
+			MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+			
+			actualPreviewInner='';
+		
+				
+				
+			
+			prvBtn.removeEventListener('click',previewClicked);
+			
+		};
+		
+		
+		
+		//TAKES CARE OF FILE LOADING
+		var openFile = function(event) {
+    		var input = event.target;
+
+   		 	var reader = new FileReader();
+    		reader.onload = function(){
+      			var text = reader.result;
+				userQuestions=[];
+				makeUserQuestions(text);
+				
+				
+      			
+				//document.write(reader.result);
+    		};
+    		reader.readAsText(input.files[0]);
+  		};
+		
+		function makeUserQuestions(s){
+			var fart;
+			var whichQuestionAt=0;
+			var needA=0;
+			var needB=0;
+			var needC=0;
+			var needD=0;
+			var needF=0;
+			var qStart='';
+			var qEnd='';
+			var aStart='';
+			var aEnd='';
+			var bStart='';
+			var bEnd='';
+			var cStart='';
+			var cEnd='';
+			var dStart='';
+			var dEnd='';
+			var theEnd=0;
+			var badF=0;
+			var whatF='';
+			for (fart=0;fart<s.length;fart++){
+				
+				if (s.substring(fart,fart+9)=='\\question'){
+					if (needA==0 &&  needB==0 && needC==0 && needD==0 && needF==0){
+					qStart=fart+10;
+					whichQuestionAt=whichQuestionAt+1;
+					needA=1;
+					needB=1;
+					needC=1;
+					needD=1;
+					needF=1;
+					}
+					else{
+						break
+					}
+					
+					//console.log(s.substring(fart, fart+2));
+				}
+				if (qStart!='' && s.substring(fart,fart+5)=='\\ansa'){
+					needA=0;
+					aStart=fart+6;
+					qEnd=fart-1;
+				}
+				if (aStart!='' && s.substring(fart,fart+5)=='\\ansb'){
+					aEnd=fart-1;	
+					needB=0;
+					bStart=fart+6;
+				}
+				if (aStart!='' && aEnd!=''){
+					tempQuestion[1]=s.substring(aStart,aEnd);
+					
+					aStart='';
+					aEnd='';
+				}
+				if (bStart!='' && s.substring(fart,fart+5)=='\\ansc'){
+					bEnd=fart-1;
+					needC=0;
+					cStart=fart+6;
+				}
+				if (bStart!='' && bEnd!=''){
+					
+					tempQuestion[2]=s.substring(bStart,bEnd);
+					bStart='';
+					bEnd='';
+				}
+				if (cStart!='' && s.substring(fart,fart+5)=='\\ansd'){
+					cEnd=fart-1;
+					needD=0;
+					dStart=fart+6;
+				}
+				if (cStart!='' && cEnd!=''){
+				
+					tempQuestion[3]=s.substring(cStart,cEnd);
+					cStart='';
+					cEnd='';
+				}
+				if (dStart!='' && s.substring(fart,fart+4)=='\\sol'){
+					needF=0;
+					dEnd=fart-1;
+					var soMany=s.substring(fart+5,fart+6);
+					if (soMany=='a' || soMany=='b' || soMany=='c' || soMany=='d'){
+					tempQuestion[5]=s.substring(fart+5,fart+6);
+					}
+					else{
+						badF=1;
+						whatF=soMany;
+					break	
+					}
+				}
+				if (dStart!='' && dEnd!=''){
+					
+					tempQuestion[4]=s.substring(dStart,dEnd);
+					dStart='';
+					dEnd='';
+					theEnd=1;
+				}
+				if (theEnd==1){
+					userQuestions.push(tempQuestion);	
+					theEnd=0;
+					cleanTempQuestion();
+				}
+				
+			
+				if (qStart!='' && qEnd!=''){
+					tempQuestion[0]=s.substring(qStart,qEnd);
+					qStart='';
+					qEnd='';
+					
+				}
+				
+				
+			}
+			
+			if (whichQuestionAt==0){
+			var errorMessage='Could not find any questions in the file you loaded make sure it is the correct file and recall that you use \\question to indicate the start of a question';	
+				userFile.value='';
+				alert(errorMessage);
+				userQuestions=[];
+				cleanTempQuestion();
+				actualPreviewInner='';
+				previewDiv.innerHTML=actualPreviewInner;
+			}
+			
+			if (badF==1){
+			var errorMessage='\\sol is used to indicate the correct answer to the preceding question and only looks at the next letter.\n Your next letter was: '+whatF+'\n but it must be either a, b, c, or d';
+				alertQuestionError(whichQuestionAt,errorMessage);
+				userQuestions=[];
+				cleanTempQuestion();
+				actualPreviewInner='';
+				previewDiv.innerHTML=actualPreviewInner;
+			}
+			
+			//console.log(userQuestions);
+			if (needA==1 || needB==1 || needC==1 || needD==1 || needF==1){
+				actualPreviewInner='';
+				previewDiv.innerHTML=actualPreviewInner;
+				var errorMessage='You may be missing ';
+				var orError='\n\n Also the answers must be written IN ORDER that is \\ansa must come BEFORE \\ansb etc. \n\n And do not forget that each question must have EVERY CHOICE that is \\ansa, \\ansb, \\ansc, \\ansd, and \\sol must appear for each question';
+				if (needA==1){
+					errorMessage=errorMessage+'an answer for choice "a" indicated in your code by \\ansa  ';
+				}
+				if (needB==1 && needA!=1){
+					errorMessage=errorMessage+'an answer for choice "b" indicated in your code by \\ansb  ';
+					
+				}
+				if (needC==1 && needB!=1){
+					errorMessage=errorMessage+'an answer for choice "c" indicated in your code by \\ansc  ';	
+				}
+				if (needD==1 && needC!=1){
+					errorMessage=errorMessage+'an answer for choice "d" indicated in your code by \\ansd  ';	
+				}
+				if (needF==1 && needD!=1){
+					errorMessage=errorMessage+'the correct answer indicated in your code by \\sol  ';
+				}
+				alertQuestionError(whichQuestionAt,errorMessage+orError);
+				userQuestions=[];
+				
+				cleanTempQuestion();
+			}
+			//alertQuestionError(1,'this is a test');
+			
+			if (userQuestions.length!=0){
+			
+				makePreviewButton();
+				
+			}
+			
+		}
+		
+		function cleanTempQuestion(){
+			tempQuestion=['','not a choice','not a choice','not a choice','not a choice',''];
+		}
+		
+		function alertQuestionError(where,what){
+		alert('OOPS... it looks like you have a syntax error in question '+where+' of your file... please fix your error and reload the file! \n \n'+'ERROR MESSAGE:\n '+what);
+			userFile.value='';
+		}
+		
+		
+		
+		
+		
+		
+		function randomQuestion(T){
+			
+			//inQuestion=1;
+			
+			// THE FOLLOWING IS JUST TO TEST THE MOST RECENT QUESTION WRITTEN!
+			
+			/*
+			var skee=Questions.length-1;
+			
+			an=Questions[skee][5];
+			makeQuestions(Questions[skee][0],Questions[skee][1],Questions[skee][2],Questions[skee][3],Questions[skee][4]);
+						
+			*/
+			var toot=true;
+			var skee=Math.random();
+			skee=skee*Questions.length;
+			skee=Math.floor(skee);
+			var pooper;
+			var poopy;
+			var poopshoot=0;
+			var helper=Questions.length;
+		for (poopy=0;poopy<Questions.length;poopy++){
+			if (usedQuestions[poopy]==1){
+				poopshoot=poopshoot+1
+			}
+		}
+		
+			
+			if (poopshoot==helper){
+					for (pooper=0;pooper<Questions.length;pooper++){
+						usedQuestions[pooper]=0;	
+						
+					}
+				//document.write('yes it worked');
+			}
+			while (toot){
+			if (usedQuestions[skee]==1){
+				skee=Math.random();
+				skee=skee*Questions.length;
+				skee=Math.floor(skee);
+			}else{
+					toot=false;
+				usedQuestions[skee]=1;
+			currentQuestion=skee;
+			phiphi=skee;
+			an=Questions[skee][5];
+			makeQuestions(Questions[skee][0],Questions[skee][1],Questions[skee][2],Questions[skee][3],Questions[skee][4]);
+			
+				}
+			}
+			
+			
+			
+			
+		}
+
+		function makeBoard(){
+			
+		sieze=Math.min(w,h);
+		tops=sieze/(2*1.5*4.5);
+		sideskip=0.66*tops;
+		downskip=0.75*tops;
+			
+			// NEXT ROUND AND REDO BUTTON CREATION
+			document.body.appendChild(btnHolder);
+			redoBtn=document.getElementById('redobutton');
+			nextBtn=document.getElementById('nextbutton');
+			
+		
+			
+			// GAME BOARD CREATION
+			document.body.appendChild(gb);
+			
+			canvasGB=document.getElementById('gbCanvas');
+			elemLeft = canvasGB.offsetLeft;
+    		elemTop = canvasGB.offsetTop;
+				//console.log(elemLeft+'\n'+elemTop);
+			widthGB=canvasGB.width=w-14.0000001;
+			heightGB=canvasGB.height=7.5*tops+10;
+			ctxGB=canvasGB.getContext('2d');
+			
+			// SET LINE WIDTH
+			ctxGB.lineWidth=tops*(3/48.6);
+			
+			// DRAW BOARD
+			var i;
+			var k;
+			for (i=0;i<5;i++){
+				
+				for (k=0;k<4;k++){
+					drawBlock(i,k);	
+					
+				}
+			}
+		}
+		
+		
+		function startRound(){
+			
+			inQuestion=0;
+			//console.log('started round \n'+inQuestion);
+			chooseBlock(correctRound);
+			redoBtn.removeEventListener('click',rdPushed);
+			//console.log(previousX);
+			if (previousX!='na'){
+			redoBtn.addEventListener('click',redoAfterNext);
+			}
+			
+		}
+		
+		function redoAfterNext(e){
+			//inQuestion=0;
+			//console.log(previousX+'\n'+previousY);
+			if (previousX!='na' && previousY!='na'){
+				
+				gb.parentNode.removeChild(gb);
+				qs.parentNode.removeChild(qs);
+				
+				
+				
+				/*
+				fillBlock(previousX,previousY,'');
+				console.log('apparently does drawBlock???');
+				drawBlock(previousX,previousY);
+				*/
+				if (blackBlocks[previousX][previousY]==1){
+					blackBlocks[previousX][previousY]=0;
+					
+				}
+				if (blueBlocks[previousX][previousY]==1){
+					blueBlocks[previousX][previousY]=0;
+				}
+				if (redBlocks[previousX][previousY]==1){
+					redBlocks[previousX][previousY]=0;
+				}
+				
+				makeBoard();
+				var pee;
+				var peepee;
+				for (pee=0; pee<redBlocks.length;pee++){
+					for (peepee=0;peepee<4;peepee++){
+						if (redBlocks[pee][peepee]==1){
+						fillBlock(pee,peepee,'red');	
+						}
+						if (blueBlocks[pee][peepee]==1){
+						fillBlock(pee,peepee,'blue');	
+						}
+						if (blackBlocks[pee][peepee]==1){
+						fillBlock(pee,peepee,'black');	
+						}
+						
+					}
+				}
+				
+				document.body.appendChild(qs);
+				}
+			
+			if (PreviousCorrect!='na'){
+				
+				correctRound=PreviousCorrect;	
+			}
+			qs.parentNode.removeChild(qs);
+			startRound();
+			redoBtn.removeEventListener('click',redoAfterNext);
+		}
+			
+			
+		
+		function chooseBlock(T){
+			var phi='Choose a Block!';
+			if (T==0){
+				phi='<p></p><font color="red">'+redna+"</font>"+' '+phi+'<p></p>';
+			}
+				else{
+					phi='<p></p><font color="blue">'+bluena+"</font>"+' '+phi+'<p></p>';
+				}
+			
+				qs.innerHTML=phi;
+				document.body.appendChild(qs);
+				
+				canvasGB.addEventListener('click',yellowBlock);
+			
+		}
+		
+		function QuestionGame(s){
+			
+			hh=Math.min(h,w/2);
+		tops2=hh/(2*1.5*4.5);
+		sideskip2=0.66*tops2;
+		downskip2=0.75*tops2;
+		
+		if (inQuestion==0){
+		gb.parentNode.removeChild(gb);
+			inQuestion=1;
+		}
+			//document.body.appendChild(gb);
+	
+		document.body.appendChild(gbQhlder);
+		questionCol=document.getElementById('question col');
+		canvasGB2=document.getElementById('gb2Canvas');
+		widthGB2=canvasGB2.width=w/2;
+		heightGB2=canvasGB2.height=0.5*h+17;
+		ctxGB2=canvasGB2.getContext('2d');
+		
+		
+		questionCol.innerHTML=s;
+			
+		// SET LINE WIDTH
+		ctxGB2.lineWidth=tops2*(3/48.6);
+			
+		// DRAW BOARD
+		var itsall;
+		var kall;
+		for (itsall=0;itsall<5;itsall++){
+			
+			for (kall=0;kall<4;kall++){
+				drawBlock2(itsall,kall);	
+			}
+		}
+			
+			var pee1;
+				var pee1pee1;
+				for (pee1=0; pee1<redBlocks.length;pee1++){
+					for (pee1pee1=0;pee1pee1<4;pee1pee1++){
+						if (redBlocks[pee1][pee1pee1]==1){
+						fillBlock2(pee1,pee1pee1,'red');	
+						}
+						if (blueBlocks[pee1][pee1pee1]==1){
+						fillBlock2(pee1,pee1pee1,'blue');	
+						}
+						if (blackBlocks[pee1][pee1pee1]==1){
+						fillBlock2(pee1,pee1pee1,'black');	
+						}
+						
+						if (yx!='na' && yy!='na'){
+						fillBlock2(yx,yy,'yellow');	
+						}
+						
+					}
+				}
+			
+			
+			
+		}
+		
+		
+		
+		
+	
+		
+		function makeQuestions(Q,Aa,Ab,Ac,Ad){
+			
+			var phi='<p></p><strong>Question: </strong>'+Q+'<p></p><div>'+'<strong>(a) </strong>'+Aa+'</div><p></p>'+'<div><strong>(b) </strong>'+Ab+'</div><p></p>'+'<div><strong>(c) </strong>'+Ac+'</div><p></p>'+'<div><strong>(d) </strong>'+Ad+'</div>'+'<p></p>';
+			
+			//qs.innerHTML=phi;
+			//document.body.appendChild(qs);
+			QuestionGame(phi);
+			
+			as.innerHTML='<div class="column" align="center" ><font color="red">'+redna+' </font> answer:<div> <input Id="rra" type="button" value="(a)"><input id="rrb" type="button" value="(b)"><input id="rrc" type="button" value="(c)"><input id="rrd" type="button" value="(d)"><div id="red answer block"></div></div></div> <div class="column" align="center"><font color="blue">'+bluena+' </font>answer:<div> <input id="bba" type="button" value="(a)"><input id="bbb" type="button" value="(b)"><input id="bbc" type="button" value="(c)"><input id="bbd" type="button" value="(d)"><div id="blue answer block"></div></div></div>';
+			document.body.appendChild(as);
+			redAnswerBlock=document.getElementById('red answer block');
+			blueAnswerBlock=document.getElementById('blue answer block');
+			ra=document.getElementById('rra');
+			rb=document.getElementById('rrb');
+			rc=document.getElementById('rrc');
+			rd=document.getElementById('rrd');
+			
+			ba=document.getElementById('bba');
+			bb=document.getElementById('bbb');
+			bc=document.getElementById('bbc');
+			bd=document.getElementById('bbd');
+			
+			
+			
+
+			
+			
+			ra.addEventListener('click',redCheckAnswera);
+			rb.addEventListener('click',redCheckAnswerb);
+			rc.addEventListener('click',redCheckAnswerc);
+			rd.addEventListener('click',redCheckAnswerd);
+			
+			ba.addEventListener('click',blueCheckAnswera);
+			bb.addEventListener('click',blueCheckAnswerb);
+			bc.addEventListener('click',blueCheckAnswerc);
+			bd.addEventListener('click',blueCheckAnswerd);
+			
+			redoBtn.removeEventListener('click',redoAfterNext);
+			nextBtn.addEventListener('click',nxtPushed);
+			redoBtn.addEventListener('click',rdPushed);
+			
+			MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+			
+		}
+		
+		function nxtPushed(e){
+			
+			
+			
+			PreviousCorrect=correctRound;
+			if (redRound==1){
+				correctRound=0;
+				fillBlock(yx,yy,'red');
+				redBlocks[yx][yy]=1;
+			}
+			else if (blueRound==1){
+				correctRound=1;
+				fillBlock(yx,yy,'blue');
+				blueBlocks[yx][yy]=1;
+			}
+			else{
+				fillBlock(yx,yy,'black');
+				blackBlocks[yx][yy]=1;
+			}
+			previousX=yx;
+			previousY=yy;
+			//console.log('next round was pressed and previousX= '+previousX);
+			yx='na';
+			yy='na';
+			redRound=0;
+			blueRound=0;
+			
+			
+			if (inQuestion==1){
+				gbQhlder.parentNode.removeChild(gbQhlder);
+				as.parentNode.removeChild(as);
+				//document.body.appendChild(gbQhlder);
+				makeBoard();
+				var pee;
+				var peepee;
+				for (pee=0; pee<redBlocks.length;pee++){
+					for (peepee=0;peepee<4;peepee++){
+						if (redBlocks[pee][peepee]==1){
+						fillBlock(pee,peepee,'red');	
+						}
+						if (blueBlocks[pee][peepee]==1){
+						fillBlock(pee,peepee,'blue');	
+						}
+						if (blackBlocks[pee][peepee]==1){
+						fillBlock(pee,peepee,'black');	
+						}
+						if (yx!='na' && yy!='na'){
+						fillBlock(yx,yy,'yellow');	
+						}
+					}
+				}
+				
+				
+			}
+			
+			//remove questions 
+			//gbQhlder.parentNode.removeChild(gbQhlder);
+			
+			//remove answers
+			//as.parentNode.removeChild(as);
+			
+			nextBtn.removeEventListener('click',nxtPushed);
+			redoBtn.removeEventListener('click',rdPushed);
+			
+			
+			//start over 
+			startRound();
+			
+		}
+			
+		
+		function rdPushed(e){
+			if (inQuestion==1){
+				gbQhlder.parentNode.removeChild(gbQhlder);
+				as.parentNode.removeChild(as);
+				//document.body.appendChild(gbQhlder);
+				makeBoard();
+				var pee;
+				var peepee;
+				for (pee=0; pee<redBlocks.length;pee++){
+					for (peepee=0;peepee<4;peepee++){
+						if (redBlocks[pee][peepee]==1){
+						fillBlock(pee,peepee,'red');	
+						}
+						if (blueBlocks[pee][peepee]==1){
+						fillBlock(pee,peepee,'blue');	
+						}
+						if (blackBlocks[pee][peepee]==1){
+						fillBlock(pee,peepee,'black');	
+						}
+						
+					}
+				}
+				
+				
+			}
+			
+			inQuestion=0;
+			
+			//remove questions 
+			//gbQhlder.parentNode.removeChild(gbQhlder);
+			
+			//remove answers
+			//as.parentNode.removeChild(as);
+			
+			// change yellow block back to white
+			//fillBlock(yx,yy,'white');
+			//drawBlock(yx,yy);
+			// reset yx and yy to 'na'
+			yx='na';
+			yy='na';
+			// reset redRound and blueRound to 0
+			redRound=0;
+			blueRound=0;
+			usedQuestions[currentQuestion]=0;
+			
+			
+			
+			redoBtn.removeEventListener('click',rdPushed);
+
+			// start over
+			startRound();
+			
+		}
+		
+		function redCheckAnswera(e){
+			if ('a'== an){
+				redAnswerBlock.innerHTML="<p></p><strong><font color='red'> CORRECT! </font></strong>";
+				ba.removeEventListener('click',blueCheckAnswera);
+				bb.removeEventListener('click',blueCheckAnswerb);
+				bc.removeEventListener('click',blueCheckAnswerc);
+				bd.removeEventListener('click',blueCheckAnswerd);
+				redRound=1;
+				blueRound=0;
+			}
+			else{
+				redAnswerBlock.innerHTML="<p></p><strong><font color='red'> WRONG! </font></strong>";
+				redRound=0;
+			}
+			ra.removeEventListener('click',redCheckAnswera);
+			rb.removeEventListener('click',redCheckAnswerb);
+			rc.removeEventListener('click',redCheckAnswerc);
+			rd.removeEventListener('click',redCheckAnswerd);
+			ba.removeEventListener('click',blueCheckAnswera);
+			
+		}
+		
+		function redCheckAnswerb(e){
+			if ('b'== an){
+				redAnswerBlock.innerHTML="<p></p><strong><font color='red'> CORRECT! </font></strong>";
+				ba.removeEventListener('click',blueCheckAnswera);
+				bb.removeEventListener('click',blueCheckAnswerb);
+				bc.removeEventListener('click',blueCheckAnswerc);
+				bd.removeEventListener('click',blueCheckAnswerd);
+				redRound=1;
+				blueRound=0;
+			}
+			else{
+				redAnswerBlock.innerHTML="<p></p><strong><font color='red'> WRONG! </font></strong>";
+				redRound=0;
+			}
+			ra.removeEventListener('click',redCheckAnswera);
+			rb.removeEventListener('click',redCheckAnswerb);
+			rc.removeEventListener('click',redCheckAnswerc);
+			rd.removeEventListener('click',redCheckAnswerd);
+			bb.removeEventListener('click',blueCheckAnswerb);
+		
+			
+		}
+		
+		function redCheckAnswerc(e){
+			if ('c'== an){
+				redAnswerBlock.innerHTML="<p></p><strong><font color='red'> CORRECT! </font></strong>";
+				ba.removeEventListener('click',blueCheckAnswera);
+				bb.removeEventListener('click',blueCheckAnswerb);
+				bc.removeEventListener('click',blueCheckAnswerc);
+				bd.removeEventListener('click',blueCheckAnswerd);
+				redRound=1;
+				blueRound=0;
+			}
+			else{
+				redAnswerBlock.innerHTML="<p></p><strong><font color='red'> WRONG! </font></strong>";
+				redRound=0;
+			}
+			ra.removeEventListener('click',redCheckAnswera);
+			rb.removeEventListener('click',redCheckAnswerb);
+			rc.removeEventListener('click',redCheckAnswerc);
+			rd.removeEventListener('click',redCheckAnswerd);
+			bc.removeEventListener('click',blueCheckAnswerc);
+			
+		}
+		
+		function redCheckAnswerd(e){
+			if ('d'== an){
+				redAnswerBlock.innerHTML="<p></p><strong><font color='red'> CORRECT! </font></strong>";
+				ba.removeEventListener('click',blueCheckAnswera);
+				bb.removeEventListener('click',blueCheckAnswerb);
+				bc.removeEventListener('click',blueCheckAnswerc);
+				bd.removeEventListener('click',blueCheckAnswerd);
+				redRound=1;
+				blueRound=0;
+			}
+			else{
+				redAnswerBlock.innerHTML="<p></p><strong><font color='red'> WRONG! </font></strong>";
+				redRound=0;
+			}
+			ra.removeEventListener('click',redCheckAnswera);
+			rb.removeEventListener('click',redCheckAnswerb);
+			rc.removeEventListener('click',redCheckAnswerc);
+			rd.removeEventListener('click',redCheckAnswerd);
+			bd.removeEventListener('click',blueCheckAnswerd);
+			
+		}
+		
+		function blueCheckAnswera(e){
+			if ('a'== an){
+				blueAnswerBlock.innerHTML="<p></p><strong><font color='blue'> CORRECT! </font></strong>";
+				ra.removeEventListener('click',redCheckAnswera);
+				rb.removeEventListener('click',redCheckAnswerb);
+				rc.removeEventListener('click',redCheckAnswerc);
+				rd.removeEventListener('click',redCheckAnswerd);
+				redRound=0;
+				blueRound=1;
+			}
+			else{
+				blueAnswerBlock.innerHTML="<p></p><strong><font color='blue'> WRONG! </font></strong>";
+				blueRound=0;
+			}
+			ba.removeEventListener('click',blueCheckAnswera);
+			bb.removeEventListener('click',blueCheckAnswerb);
+			bc.removeEventListener('click',blueCheckAnswerc);
+			bd.removeEventListener('click',blueCheckAnswerd);
+			ra.removeEventListener('click',redCheckAnswera);
+			
+		}
+		
+		function blueCheckAnswerb(e){
+			if ('b'== an){
+				blueAnswerBlock.innerHTML="<p></p><strong><font color='blue'> CORRECT! </font></strong>";
+				ra.removeEventListener('click',redCheckAnswera);
+				rb.removeEventListener('click',redCheckAnswerb);
+				rc.removeEventListener('click',redCheckAnswerc);
+				rd.removeEventListener('click',redCheckAnswera);
+				redRound=0;
+				blueRound=1;
+			}
+			else{
+				blueAnswerBlock.innerHTML="<p></p><strong><font color='blue'> WRONG! </font></strong>";
+				blueRound=0;
+			}
+			ba.removeEventListener('click',blueCheckAnswera);
+			bb.removeEventListener('click',blueCheckAnswerb);
+			bc.removeEventListener('click',blueCheckAnswerc);
+			bd.removeEventListener('click',blueCheckAnswerd);
+			rb.removeEventListener('click',redCheckAnswerb);
+			
+		}
+			
+		
+		
+		function blueCheckAnswerc(e){
+			if ('c'== an){
+				blueAnswerBlock.innerHTML="<p></p><strong><font color='blue'> CORRECT! </font></strong>";
+				ra.removeEventListener('click',redCheckAnswera);
+				rb.removeEventListener('click',redCheckAnswerb);
+				rc.removeEventListener('click',redCheckAnswerc);
+				rd.removeEventListener('click',redCheckAnswerd);
+				redRound=0;
+				blueRound=1;
+			}
+			else{
+				blueAnswerBlock.innerHTML="<p></p><strong><font color='blue'> WRONG! </font></strong>";
+				blueRound=0;
+			}
+			ba.removeEventListener('click',blueCheckAnswera);
+			bb.removeEventListener('click',blueCheckAnswerb);
+			bc.removeEventListener('click',blueCheckAnswerc);
+			bd.removeEventListener('click',blueCheckAnswerd);
+			rc.removeEventListener('click',redCheckAnswerc);
+			
+		}
+		
+		function blueCheckAnswerd(e){
+			if ('d'== an){
+				blueAnswerBlock.innerHTML="<p></p><strong><font color='blue'> CORRECT! </font></strong>";
+				ra.removeEventListener('click',redCheckAnswera);
+				rb.removeEventListener('click',redCheckAnswerb);
+				rc.removeEventListener('click',redCheckAnswerc);
+				rd.removeEventListener('click',redCheckAnswerd);
+				redRound=0;
+				blueRound=1;
+			}
+			else{
+				blueAnswerBlock.innerHTML="<p></p><strong><font color='blue'> WRONG! </font></strong>";
+				blueRound=0;
+			}
+			ba.removeEventListener('click',blueCheckAnswera);
+			bb.removeEventListener('click',blueCheckAnswerb);
+			bc.removeEventListener('click',blueCheckAnswerc);
+			bd.removeEventListener('click',blueCheckAnswerd);
+			rd.removeEventListener('click',redCheckAnswerd);
+			
+		}
+		
+		
+		
+		
+		
+		function yellowBlock(e){
+			var x=e.clientX-elemLeft;
+			var y=e.clientY-elemTop;
+			
+			//console.log(helpx+'\n'+helpy);
+			
+			
+			var jj;
+			var kk;
+					
+			
+			
+			
+			for (jj=0;jj<5;jj++){
+			
+				for (kk=0;kk<4;kk++){
+					
+					
+					//CONDITIONS THAT IN BLOCK!
+					var con1=(	blocksy[jj][kk][1]<y && y<blocksy[jj][kk][4]);
+					
+					var conl1=y>((blocksy[jj][kk][0]-blocksy[jj][kk][1])/(blocksx[jj][kk][0]-blocksx[jj][kk][1])*(x-blocksx[jj][kk][0])+blocksy[jj][kk][0]);
+					var conl2=y>((blocksy[jj][kk][2]-blocksy[jj][kk][3])/(blocksx[jj][kk][2]-blocksx[jj][kk][3])*(x-blocksx[jj][kk][2])+blocksy[jj][kk][2]);
+					var conditionTopLines=conl1 && conl2;
+					//console.log(conditionTopLines);
+					
+					var conl3=y<((blocksy[jj][kk][3]-blocksy[jj][kk][4])/(blocksx[jj][kk][3]-blocksx[jj][kk][4])*(x-blocksx[jj][kk][3])+blocksy[jj][kk][3]);
+					var conl4=y<((blocksy[jj][kk][0]-blocksy[jj][kk][5])/(blocksx[jj][kk][0]-blocksx[jj][kk][5])*(x-blocksx[jj][kk][0])+blocksy[jj][kk][0]);
+					var conditionBottomLines=conl3 && conl4;
+					//console.log(conditionBottomLines);
+					
+					var theCondition=con1 && conditionTopLines && conditionBottomLines;
+					//console.log(theCondition);
+					if ( theCondition ){
+								
+						yx=jj;
+						yy=kk;
+								
+					}
+				}
+						
+			}
+					
+			if (yx!='na' && yy!='na' && redBlocks[yx][yy]==0 && blueBlocks[yx][yy]==0 && blackBlocks[yx][yy]==0){
+				fillBlock(yx,yy,'rgb(255,255,0)');
+				canvasGB.removeEventListener('click',yellowBlock);
+				qs.parentNode.removeChild(qs);
+				randomQuestion(yx);
+		
+			}
+					
+		}
+		
+		
+		function makeLogo(){
+			document.body.appendChild(logobtnHolder);
+			document.body.appendChild(logo);
+			//document.body.appendChild(dummies);
+			
+			
+			
+			infoBtn=document.getElementById('more info button');
+			setupBtn=document.getElementById('set up button');
+			
+			infoBtn.addEventListener('click',function(e){
+				//follow link here 
+			}
+				);
+			setupBtn.addEventListener('click',setupClicked);
+			
+			
+			canvasL=document.getElementById('myCanvas');
+			widthL = canvasL.width=w-14.00000001;
+			heightL = canvasL.height=2*(w/3)/1.5;
+			ctxL = canvasL.getContext('2d');
+			
+			
+			//DRAW ONCE LOADED
+			if (logoLoaded==0){
+			image.onload=function(){
+				ctxL.drawImage(image,w/6,0,2*w/3,2*(w/3)/1.5);
+				logoLoaded=1;
+			}
+			}
+			else
+			{
+
+				ctxL.drawImage(image,w/6,0,2*w/3,2*(w/3)/1.5);				
+				
+			}
+		}
+		
+		
+		function setupClicked(e){
+		//go into set up
+			
+			
+			// UNLOAD LOGO SCREEN
+				//dummies.parentNode.removeChild(dummies);
+				logo.parentNode.removeChild(logo);
+				logobtnHolder.parentNode.removeChild(logobtnHolder);
+				
+				inLogo=0;
+				inSetUp=1;
+				
+				// LOAD SET UP SCREEN 
+				makeSetUp();
+				
+				
+				
+				
+				//PLAY GAME
+				//startRound();
+			
+			setupBtn=removeEventListener('click',setupClicked);
+			//console.log('worked');
+		}
+
+		
+		function drawBlock(a,b){
+			ctxGB.beginPath();
+			var t=(w-8.96*tops)/2;
+			var startevenx=t+(tops+sideskip)*a;
+			var starteveny=(15+downskip)+b*2*downskip;
+			var startoddx=t+sideskip+tops+(sideskip+tops)*(a-1);
+			var startoddy=(15+2*downskip)+b*2*downskip;
+			if (a%2==0){
+				ctxGB.moveTo(startevenx,starteveny);
+				ctxGB.lineTo(startevenx+sideskip,starteveny-downskip);
+				ctxGB.lineTo(startevenx+sideskip+tops,starteveny-downskip);
+				ctxGB.lineTo(startevenx+2*sideskip+tops,starteveny);
+				ctxGB.lineTo(startevenx+sideskip+tops,starteveny+downskip);
+				ctxGB.lineTo(startevenx+sideskip,starteveny+downskip);
+				ctxGB.lineTo(startevenx,starteveny);
+				
+				//THE NEW AWESOME CONDITIONS
+				blocksx[a][b][0]=startevenx;
+				blocksy[a][b][0]=starteveny;
+				blocksx[a][b][1]=startevenx+sideskip;
+				blocksy[a][b][1]=starteveny-downskip;
+				blocksx[a][b][2]=startevenx+sideskip+tops;
+				blocksy[a][b][2]=starteveny-downskip;
+				blocksx[a][b][3]=startevenx+2*sideskip+tops;
+				blocksy[a][b][3]=starteveny;
+				blocksx[a][b][4]=startevenx+sideskip+tops;
+				blocksy[a][b][4]=starteveny+downskip;
+				blocksx[a][b][5]=startevenx+sideskip;
+				blocksy[a][b][5]=starteveny+downskip;
+				
+				//the rectangle conditions
+				/*
+				blocksx[a][b][0]=Math.ceil(startevenx+sideskip);
+				blocksy[a][b][0]=Math.ceil(starteveny-downskip);
+				blocksx[a][b][1]=Math.ceil(startevenx+sideskip+tops);
+				blocksy[a][b][1]=Math.ceil(starteveny+downskip);
+				*/
+				
+				var textSizer=1.5*tops/2;
+				
+				ctxGB.strokeStyle='black';
+				ctxGB.lineWidth=1;
+				ctxGB.font=textSizer+'px arial';
+				if (lettersConvert[a][b]=='I'){
+				ctxGB.fillText(lettersConvert[a][b],startevenx+sideskip+.5*tops-.2*textSizer,starteveny+.35*textSizer);
+				}
+				else{
+					ctxGB.fillText(lettersConvert[a][b],startevenx+sideskip+.5*tops-.35*textSizer,starteveny+.35*textSizer);
+				}
+			}
+			else{
+				ctxGB.moveTo(startoddx,startoddy);
+				ctxGB.lineTo(startoddx+sideskip,startoddy-downskip);
+				ctxGB.lineTo(startoddx+sideskip+tops,startoddy-downskip);
+				ctxGB.lineTo(startoddx+2*sideskip+tops,startoddy);
+				ctxGB.lineTo(startoddx+sideskip+tops,startoddy+downskip);
+				ctxGB.lineTo(startoddx+sideskip,startoddy+downskip);
+				ctxGB.lineTo(startoddx,startoddy);
+				
+				
+				//THE NEW CONDITIONS
+				blocksx[a][b][0]=startoddx;
+				blocksy[a][b][0]=startoddy;
+				blocksx[a][b][1]=startoddx+sideskip;
+				blocksy[a][b][1]=startoddy-downskip;
+				blocksx[a][b][2]=startoddx+sideskip+tops;
+				blocksy[a][b][2]=startoddy-downskip;
+				blocksx[a][b][3]=startoddx+2*sideskip+tops;
+				blocksy[a][b][3]=startoddy;
+				blocksx[a][b][4]=startoddx+sideskip+tops;
+				blocksy[a][b][4]=startoddy+downskip;
+				blocksx[a][b][5]=startoddx+sideskip;
+				blocksy[a][b][5]=startoddy+downskip;
+				
+				var textSizer=1.5*tops/2;
+				
+				ctxGB.strokeStyle='black';
+				ctxGB.lineWidth=1;
+				ctxGB.font=textSizer+'px arial';
+				ctxGB.fillText(lettersConvert[a][b],startoddx+sideskip+.5*tops-.35*textSizer,startoddy+.35*textSizer);
+			
+				
+				
+				
+				//THE RECTANGLE CONDITIONS
+				/*
+				blocksx[a][b][0]=Math.ceil(startoddx+sideskip);
+				blocksy[a][b][0]=Math.ceil(startoddy-downskip);
+				blocksx[a][b][1]=Math.ceil(startoddx+sideskip+tops);
+				blocksy[a][b][1]=Math.ceil(startoddy+downskip);
+				*/
+			}
+			
+			
+			ctxGB.stroke();
+			
+		}
+			
+		function fillBlock(a,b,color){
+			ctxGB.fillStyle=color;
+			ctxGB.beginPath();
+			var t=(w-8.96*tops)/2;
+			var startevenx=t+(tops+sideskip)*a;
+			var starteveny=(15+downskip)+b*2*downskip;
+			var startoddx=t+sideskip+tops+(sideskip+tops)*(a-1);
+			var startoddy=(15+2*downskip)+b*2*downskip;
+			if (a%2==0){
+				ctxGB.moveTo(startevenx,starteveny);
+				ctxGB.lineTo(startevenx+sideskip,starteveny-downskip);
+				ctxGB.lineTo(startevenx+sideskip+tops,starteveny-downskip);
+				ctxGB.lineTo(startevenx+2*sideskip+tops,starteveny);
+				ctxGB.lineTo(startevenx+sideskip+tops,starteveny+downskip);
+				ctxGB.lineTo(startevenx+sideskip,starteveny+downskip);
+				ctxGB.lineTo(startevenx,starteveny);
+			}
+			else{
+				ctxGB.moveTo(startoddx,startoddy);
+				ctxGB.lineTo(startoddx+sideskip,startoddy-downskip);
+				ctxGB.lineTo(startoddx+sideskip+tops,startoddy-downskip);
+				ctxGB.lineTo(startoddx+2*sideskip+tops,startoddy);
+				ctxGB.lineTo(startoddx+sideskip+tops,startoddy+downskip);
+				ctxGB.lineTo(startoddx+sideskip,startoddy+downskip);
+				ctxGB.lineTo(startoddx,startoddy);
+			}
+			
+			
+			ctxGB.fill();
+			
+		}
+		
+
+		function drawBlock2(a,b){
+			ctxGB2.beginPath();
+			var t=((w/2)-8.96*tops2)/2;
+			var startevenx=t+(tops2+sideskip2)*a;
+			var starteveny=(15+downskip2)+b*2*downskip2;
+			var startoddx=t+sideskip2+tops2+(sideskip2+tops2)*(a-1);
+			var startoddy=(15+2*downskip2)+b*2*downskip2;
+			if (a%2==0){
+				ctxGB2.moveTo(startevenx,starteveny);
+				ctxGB2.lineTo(startevenx+sideskip2,starteveny-downskip2);
+				ctxGB2.lineTo(startevenx+sideskip2+tops2,starteveny-downskip2);
+				ctxGB2.lineTo(startevenx+2*sideskip2+tops2,starteveny);
+				ctxGB2.lineTo(startevenx+sideskip2+tops2,starteveny+downskip2);
+				ctxGB2.lineTo(startevenx+sideskip2,starteveny+downskip2);
+				ctxGB2.lineTo(startevenx,starteveny);
+				
+			
+				var textSizer=1.5*tops/4;
+				
+				ctxGB2.strokeStyle='black';
+				ctxGB2.lineWidth=1;
+				ctxGB2.font=textSizer+'px arial';
+				if (lettersConvert[a][b]=='I'){
+				ctxGB2.fillText(lettersConvert[a][b],startevenx+sideskip2+.5*tops2-.2*textSizer,starteveny+.35*textSizer);
+				}
+				else{
+					ctxGB2.fillText(lettersConvert[a][b],startevenx+sideskip2+.5*tops2-.2*textSizer,starteveny+.35*textSizer);
+				}
+				
+			}
+				
+				
+				/*
+				blocksx[a][b][0]=Math.ceil(startevenx+sideskip2);
+				blocksy[a][b][0]=Math.ceil(starteveny-downskip2)+21;
+				blocksx[a][b][1]=Math.ceil(startevenx+sideskip2+tops2);
+				blocksy[a][b][1]=Math.ceil(starteveny+downskip2)+21;
+				*/
+			
+			else{
+				ctxGB2.moveTo(startoddx,startoddy);
+				ctxGB2.lineTo(startoddx+sideskip2,startoddy-downskip2);
+				ctxGB2.lineTo(startoddx+sideskip2+tops2,startoddy-downskip2);
+				ctxGB2.lineTo(startoddx+2*sideskip2+tops2,startoddy);
+				ctxGB2.lineTo(startoddx+sideskip2+tops2,startoddy+downskip2);
+				ctxGB2.lineTo(startoddx+sideskip2,startoddy+downskip2);
+				ctxGB2.lineTo(startoddx,startoddy);
+				
+				
+				var textSizer=1.5*tops/4;
+				
+				ctxGB2.strokeStyle='black';
+				ctxGB2.lineWidth=1;
+				ctxGB2.font=textSizer+'px arial';
+				
+				
+					ctxGB2.fillText(lettersConvert[a][b],startoddx+sideskip2+.5*tops2-.2*textSizer,startoddy+.35*textSizer);
+				
+			
+				
+				
+				/*
+				blocksx[a][b][0]=Math.ceil(startoddx+sideskip2);
+				blocksy[a][b][0]=Math.ceil(startoddy-downskip2)+21;
+				blocksx[a][b][1]=Math.ceil(startoddx+sideskip2+tops2);
+				blocksy[a][b][1]=Math.ceil(startoddy+downskip2)+21;
+				*/
+			}
+			
+			
+			ctxGB2.stroke();
+			
+		}
+		
+		
+		
+	
+	function fillBlock2(a,b,color){
+			ctxGB2.fillStyle=color;
+			ctxGB2.beginPath();
+			var t=((w/2)-8.96*tops2)/2;
+			var startevenx=t+(tops2+sideskip2)*a;
+			var starteveny=(15+downskip2)+b*2*downskip2;
+			var startoddx=t+sideskip2+tops2+(sideskip2+tops2)*(a-1);
+			var startoddy=(15+2*downskip2)+b*2*downskip2;
+			if (a%2==0){
+				ctxGB2.moveTo(startevenx,starteveny);
+				ctxGB2.lineTo(startevenx+sideskip2,starteveny-downskip2);
+				ctxGB2.lineTo(startevenx+sideskip2+tops2,starteveny-downskip2);
+				ctxGB2.lineTo(startevenx+2*sideskip2+tops2,starteveny);
+				ctxGB2.lineTo(startevenx+sideskip2+tops2,starteveny+downskip2);
+				ctxGB2.lineTo(startevenx+sideskip2,starteveny+downskip2);
+				ctxGB2.lineTo(startevenx,starteveny);
+				
+			
+			}
+			else{
+				ctxGB2.moveTo(startoddx,startoddy);
+				ctxGB2.lineTo(startoddx+sideskip2,startoddy-downskip2);
+				ctxGB2.lineTo(startoddx+sideskip2+tops2,startoddy-downskip2);
+				ctxGB2.lineTo(startoddx+2*sideskip2+tops2,startoddy);
+				ctxGB2.lineTo(startoddx+sideskip2+tops2,startoddy+downskip2);
+				ctxGB2.lineTo(startoddx+sideskip2,startoddy+downskip2);
+				ctxGB2.lineTo(startoddx,startoddy);
+				
+				
+				
+			}
+			
+			
+			ctxGB2.fill();
+			
+		}
+		
+
+
+	</script>
+
+
+
+</body>
+	
+
+
+</html>
